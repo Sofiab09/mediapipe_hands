@@ -1,9 +1,9 @@
-# main.py
 import cv2
 import mediapipe as mp
 import numpy as np
 import joblib
 import argparse
+
 
 def preprocess_landmarks(hand_landmarks):
     lm = hand_landmarks.landmark
@@ -12,6 +12,7 @@ def preprocess_landmarks(hand_landmarks):
     for i in range(21):
         keypoints.extend([lm[i].x - wrist_x, lm[i].y - wrist_y, lm[i].z - wrist_z])
     return np.array(keypoints).reshape(1, -1)
+
 
 def main(args):
     modelo = joblib.load(args.model)
@@ -44,7 +45,6 @@ def main(args):
             mp_draw.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
             keypoints = preprocess_landmarks(hand_landmarks)
-            # aplicar la misma escalación que en entrenamiento
             keypoints_scaled = scaler.transform(keypoints)
             pred = modelo.predict(keypoints_scaled)[0]
             letra = le.inverse_transform([pred])[0]
@@ -58,6 +58,7 @@ def main(args):
 
     cap.release()
     cv2.destroyAllWindows()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

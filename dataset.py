@@ -1,12 +1,11 @@
-# dataset.py (versión simple mejorada)
 import cv2
 import mediapipe as mp
 import csv
 import os
 
 # CONFIGURACIÓN
-LABEL = "B"              # <--- Cambia aquí la letra que quieras
-COUNT = 300              # Cuántas muestras capturar
+LABEL = "B"
+COUNT = 300
 CSV_PATH = "gestures.csv"
 
 # Si no existe el archivo, crea encabezado
@@ -34,7 +33,7 @@ while cap.isOpened() and collected < COUNT:
     if not ret:
         break
 
-    frame = cv2.flip(frame, 1)  # espejo
+    frame = cv2.flip(frame, 1)  # modo espejo
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = hands.process(rgb)
 
@@ -57,8 +56,8 @@ while cap.isOpened() and collected < COUNT:
             collected += 1
             print(f"{collected}/{COUNT} capturado")
 
-    cv2.putText(frame, f"Capturando: {LABEL} ({collected}/{COUNT})", (10,30),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,255,0), 2)
+    cv2.putText(frame, f"Capturando: {LABEL} ({collected}/{COUNT})", (10, 30),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
     cv2.imshow("Dataset", frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):

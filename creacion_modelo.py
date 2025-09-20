@@ -1,4 +1,3 @@
-# Creacion_modelo.py
 import pandas as pd
 import joblib
 import argparse
@@ -6,6 +5,7 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
+
 
 def main(args):
     df = pd.read_csv(args.input)
@@ -26,7 +26,7 @@ def main(args):
         X_scaled, y_enc, test_size=0.2, random_state=42, stratify=y_enc
     )
 
-    # Entrena un RandomForest simple; puedes cambiar a SVM, XGBoost, etc.
+    # Entrena un RandomForest simple
     clf = RandomForestClassifier(n_estimators=200, random_state=42)
     clf.fit(X_train, y_train)
 
@@ -41,6 +41,7 @@ def main(args):
     joblib.dump(le, args.labels)
     joblib.dump(scaler, args.scaler)
     print(f"Guardado modelo en {args.model}, etiquetas en {args.labels}, scaler en {args.scaler}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
